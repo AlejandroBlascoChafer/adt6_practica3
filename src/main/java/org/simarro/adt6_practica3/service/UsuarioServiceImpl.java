@@ -60,8 +60,21 @@ public class UsuarioServiceImpl implements IUsuarioService{
     }
 
     @Override
-    public Usuario modificar(UsuarioRequestDTO usuario) {
-        return modelMapper.map(usuario, Usuario.class);
+    public Usuario modificar(Integer id, UsuarioRequestDTO usuario) {
+        Optional<Usuario> op = repo.findById(id);
+
+        if (op.isPresent()) {
+
+            Usuario usuMod = op.get();
+            usuMod.setNombre(usuario.getNombre());
+            usuMod.setApellidos(usuario.getApellidos());
+            usuMod.setEmail(usuario.getEmail());
+            usuMod.setPassword(usuario.getPassword());
+
+            return repo.save(usuMod);
+        } else {
+            return null;
+        }
     }
 
     @Override

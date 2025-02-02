@@ -24,15 +24,29 @@ public class UsuarioController {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> listarPorId(@PathVariable("id") Integer id){
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> listarPorId(@PathVariable("id") Integer id){
 
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(service.findByUsuario(id), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Usuario> registrar(@Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
-        if
-        return new ResponseEntity<>(service.registrar(usuarioRequestDTO), HttpStatus.OK);
+
+        return new ResponseEntity<>(service.registrar(usuarioRequestDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> modificar(@PathVariable Integer id, @Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
+        if (service.modificar(id, usuarioRequestDTO) == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(service.modificar(id, usuarioRequestDTO), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id){
+        service.eliminar(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

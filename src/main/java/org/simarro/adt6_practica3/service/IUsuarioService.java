@@ -10,6 +10,6 @@ public interface IUsuarioService {
     UsuarioResponseDTO findByUsuario(Integer idUsuario);
     List<UsuarioResponseDTO> findAll();
     Usuario registrar(UsuarioRequestDTO usuario);
-    Usuario modificar(UsuarioRequestDTO usuario);
+    Usuario modificar(Integer id, UsuarioRequestDTO usuario);
     void eliminar(Integer id);
 }
